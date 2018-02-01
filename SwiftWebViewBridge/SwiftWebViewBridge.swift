@@ -220,7 +220,8 @@ extension SwiftWebViewBridge {
                     }()
                 
                 guard let handlerClosure = handler else {
-                    fatalError("No handler for msg from JS: \(swvbMsg)..Please at least create a default handler when initializing the bridge = )")
+                  debugPrint("No handler for msg from JS: \(swvbMsg)..Please at least create a default handler when initializing the bridge = )")
+                  return  
                 }
                 
                 let msgData = swvbMsg["data"] != nil ? swvbMsg["data"] : NSNull()
