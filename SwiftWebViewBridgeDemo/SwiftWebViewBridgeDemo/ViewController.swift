@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import WebKit
 // if you install SwiftWebViewBridge by Cocoapods, please remember to import it
 // import SwiftWebViewBridge
 
@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     
     // already set delegate to current ViewController in storyboard
     @IBOutlet weak var webView: UIWebView!
+  var wk: WKWebView?
     
     @IBOutlet weak var webviewTitleLb: UILabel!
     @IBOutlet weak var loadingActivity: UIActivityIndicatorView!
@@ -32,12 +33,15 @@ class ViewController: UIViewController {
     fileprivate var numOfLoadingRequest = 0
     
     fileprivate var bridge: SwiftWebViewBridge!
+  fileprivate var wkBridge: SwiftWKWebViewBridge!
     
     // MARK: LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+      self.wkBridge = SwiftWKWebViewBridge.bridge(WKWebView(), defaultHandler: { (date, callback) in
+        callback(["msg": "Swift already got your msg, thanks"])
+      })
         self.bridge = SwiftWebViewBridge.bridge(webView, defaultHandler: { data, responseCallback in
             print("Swift received message from JS: \(data)")
             // Actually, this responseCallback could be an empty closure when javascript has no callback, saving you from unwarping an optional parameter = )

@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.description  = <<-DESC
   					Swift version of WebViewJavascriptBridge with more simplified, friendly methods to send messages between Swift and JS in UIWebViews
                    DESC
-  s.version      = "0.4.2"
+  s.version      = "0.5.0"
   s.license      = "MIT"
   s.author       = { "Shawn Foo" => "fu4904@gmail.com" }
   s.homepage     = "https://github.com/ShawnFoo/SwiftWebViewBridge"
@@ -15,6 +15,6 @@ Pod::Spec.new do |s|
   s.source_files = "SwiftWebViewBridge/*.{swift}"
   s.requires_arc = true
   s.pod_target_xcconfig =  {
-        'SWIFT_VERSION' => '4.2',
+        'SWIFT_VERSION' => '5.0',
   }
 end
