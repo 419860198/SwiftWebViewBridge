@@ -275,12 +275,13 @@ extension SwiftWKWebViewBridge {
 
 // MARK: - SwiftWebViewBridge + WebViewDelegate
 
-extension SwiftWKWebViewBridge: UIWebViewDelegate, WKNavigationDelegate {
+extension SwiftWKWebViewBridge: WKNavigationDelegate {
 
   // It's the only entrance where JavaScript can call Swift/ObjC handler or callback.Every URL loading in any frames will trigger this method
 
   public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
     if let url: URL = navigationAction.request.url {
+      debugPrint(url)
       if self.isSchemeCorrect(url) && self.isHostCorrect(url) {
         // after JS trigger this method by loading URL, Swift needs to ask JS for messages by itself
         webView.evaluateJavaScript(self.kJsFetchMessagesCommand) { (data, err) in
@@ -309,31 +310,6 @@ extension SwiftWKWebViewBridge: UIWebViewDelegate, WKNavigationDelegate {
     }
   }
 
-  public func webViewDidFinishLoad(_ webView: UIWebView) {
-
-    self.numOfLoadingRequests -= 1
-    // after all frames have loaded, starting to inject js and dispatch unhanlded message
-
-    let loadedAll = self.numOfLoadingRequests == 0
-    let noDefinedBridge = webView.stringByEvaluatingJavaScript(from: kJsCheckObjectDefinedCommand) == "false"
-
-    // make sure the js has not been injected or no duplicated SwiftWebViewBridge js object
-    if loadedAll && noDefinedBridge {
-      // inject js
-      webView.stringByEvaluatingJavaScript(from: self.loadMinifiedJS())
-      if webView.stringByEvaluatingJavaScript(from: kJsCheckObjectDefinedCommand) != "true" {
-        print("Injection of js Failed!")
-      }
-      else {
-        self.dispatchStartupMessageQueue()
-      }
-    }
-
-    if let oriDelegate = self.oriDelegate as? UIWebViewDelegate {
-      oriDelegate.webViewDidFinishLoad?(webView)
-    }
-  }
-
   public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 
     self.numOfLoadingRequests -= 1
@@ -341,8 +317,8 @@ extension SwiftWKWebViewBridge: UIWebViewDelegate, WKNavigationDelegate {
 
     let loadedAll = self.numOfLoadingRequests == 0
     webView.evaluateJavaScript(kJsCheckObjectDefinedCommand) { (data, err) in
-      if let str = data as? String{
-        let noDefinedBridge = str == "false"
+      if let str = data as? NSNumber{
+        let noDefinedBridge = str == 0
         if loadedAll && noDefinedBridge {
           webView.evaluateJavaScript(self.loadMinifiedJS(), completionHandler: nil)
           webView.evaluateJavaScript(self.kJsCheckObjectDefinedCommand, completionHandler: { (data, err) in
@@ -360,12 +336,6 @@ extension SwiftWKWebViewBridge: UIWebViewDelegate, WKNavigationDelegate {
 
     if let oriDelegate = self.oriDelegate as? WKNavigationDelegate {
       oriDelegate.webView?(webView, didFinish: navigation)
-    }
-  }
-
-  public func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-    if let oriDelegate = self.oriDelegate as? UIWebViewDelegate {
-      oriDelegate.webView?(webView, didFailLoadWithError: error)
     }
   }
 
