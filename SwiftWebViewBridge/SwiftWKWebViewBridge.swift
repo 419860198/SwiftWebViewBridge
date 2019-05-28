@@ -322,8 +322,8 @@ extension SwiftWKWebViewBridge: WKNavigationDelegate {
         if loadedAll && noDefinedBridge {
           webView.evaluateJavaScript(self.loadMinifiedJS(), completionHandler: nil)
           webView.evaluateJavaScript(self.kJsCheckObjectDefinedCommand, completionHandler: { (data, err) in
-            if let str = data as? String {
-              if str != "true" {
+            if let str = data as? NSNumber {
+              if str != 1 {
                 print("Injection of js Failed!")
               }else{
                 self.dispatchStartupMessageQueue()
