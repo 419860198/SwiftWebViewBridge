@@ -340,7 +340,7 @@ extension SwiftWKWebViewBridge: WKNavigationDelegate {
   }
 
   public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-
+    self.numOfLoadingRequests -= 1
     if let oriDelegate = self.oriDelegate as? WKNavigationDelegate {
       oriDelegate.webView?(webView, didFail: navigation, withError: error)
     }
