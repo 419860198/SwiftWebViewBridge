@@ -319,7 +319,7 @@ extension SwiftWKWebViewBridge: WKNavigationDelegate {
     webView.evaluateJavaScript(kJsCheckObjectDefinedCommand) { (data, err) in
       if let str = data as? NSNumber{
         let noDefinedBridge = str == 0
-        if loadedAll && noDefinedBridge {
+        if noDefinedBridge {
           webView.evaluateJavaScript(self.loadMinifiedJS(), completionHandler: nil)
           webView.evaluateJavaScript(self.kJsCheckObjectDefinedCommand, completionHandler: { (data, err) in
             if let str = data as? NSNumber {
