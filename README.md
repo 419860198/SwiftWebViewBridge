@@ -4,7 +4,7 @@
 ![ObjC](https://img.shields.io/badge/Swift-2.0%2B-orange.svg)
 ![pod](https://img.shields.io/badge/Cocoapods-0.3.0-blue.svg)
 
-Swift version of [WebViewJavascriptBridge](https://github.com/marcuswestin/WebViewJavascriptBridge) with more simplified, friendly methods to send messages between Swift and JS in UIWebViews.
+Swift version of [WebViewJavascriptBridge](https://github.com/marcuswestin/WebViewJavascriptBridge) with more simplified, friendly methods to send messages between Swift and JS in WKWebViews.
 
 ---
 
@@ -64,7 +64,7 @@ The communication between Swift and JS depends on JSON messages.The param **json
 
 ### For Swift
 
-##### func bridge(_ webView: UIWebView, defaultHandler handler: SWVBHandler?) -> SwiftWebViewBridge
+##### func bridge(_ webView: WKWebView, defaultHandler handler: SWVBHandler?) -> SwiftWebViewBridge
 Generate a bridge with associated webView and default handler to deal with messages from js without specifying designated handler
 
 ```

@@ -129,7 +129,7 @@ extension SwiftWKWebViewBridge {
   }
 
   /**
-   Sending every message(send data or call handler) that happened before UIWebView did finish all loadings to JS one by one
+   Sending every message(send data or call handler) that happened before  did finish all loadings to JS one by one
    */
   fileprivate func dispatchStartupMessageQueue() {
     if let queue = self.startupMessageQueue {
