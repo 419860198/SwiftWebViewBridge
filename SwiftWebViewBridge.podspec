@@ -2,9 +2,9 @@ Pod::Spec.new do |s|
   s.platform     = :ios
   s.ios.deployment_target = '8.0'
   s.name         = "SwiftWebViewBridge"
-  s.summary      = "A bridge to send messages between Swift and JS in UIWebViews"
+  s.summary      = "A bridge to send messages between Swift and JS in WKWebViews"
   s.description  = <<-DESC
-  					Swift version of WebViewJavascriptBridge with more simplified, friendly methods to send messages between Swift and JS in UIWebViews
+  					Swift version of WebViewJavascriptBridge with more simplified, friendly methods to send messages between Swift and JS in WKWebViews
                    DESC
   s.version      = "0.5.2"
   s.license      = "MIT"
