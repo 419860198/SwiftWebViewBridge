@@ -9,6 +9,19 @@
 import WebKit
 import UIKit
 
+// MARK: - Custom Type
+
+/// 1st param: responseData to JS
+public typealias SWVBResponseCallBack = (NSDictionary) -> Void
+/// 1st param: jsonData sent from JS; 2nd param: responseCallback for sending data back to JS
+public typealias SWVBHandler = (AnyObject, @escaping SWVBResponseCallBack) -> Void
+/// Dictionary to hold handlers for swift calling
+public typealias SWVBHandlerDic = [String: SWVBHandler]
+/// Dictionary to store the JS callback in the Swift side(Only pass the uniqueId to JS for the callback)
+public typealias SWVBCallbackDic = [String: SWVBResponseCallBack]
+public typealias SWVBMessage = [String: AnyObject]
+public typealias SWVBData = [String: Any]
+
 // MARK: - SwiftWKWebViewBridge
 
 open class SwiftWKWebViewBridge: NSObject {

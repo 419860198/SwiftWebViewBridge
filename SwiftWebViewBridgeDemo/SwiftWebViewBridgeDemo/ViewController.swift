@@ -32,7 +32,6 @@ class ViewController: UIViewController {
 
   fileprivate var numOfLoadingRequest = 0
 
-  fileprivate var bridge: SwiftWebViewBridge!
   fileprivate var wkBridge: SwiftWKWebViewBridge!
 
   // MARK: LifeCycle
@@ -64,16 +63,6 @@ class ViewController: UIViewController {
       ]
       ])
 
-    self.bridge = SwiftWebViewBridge.bridge(webView, defaultHandler: { data, responseCallback in
-      print("Swift received message from JS: \(data)")
-      // Actually, this responseCallback could be an empty closure when javascript has no callback, saving you from unwarping an optional parameter = )
-      // responseCallback is modified by @escaping
-      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
-        // Simulating the situation that needs to do some   asynchronous tasks
-        responseCallback(["msg": "Swift already got your msg, thanks"])
-      }
-    })
-
     //  SwiftJavaScriptBridge.logging = false
 
     self.wkBridge.registerHandlerForJS(handlerName: "printReceivedParmas", handler: { [unowned self] jsonData, responseCallback in
@@ -85,15 +74,6 @@ class ViewController: UIViewController {
         "returnValue": [1, 2, 3]
         ])
     })
-
-    self.bridge.sendDataToJS([
-      "msg": "Hello JavaScript, My name is 小明",
-      "gift": [
-        "100CNY",
-        "1000CNY",
-        "10000CNY"
-      ]
-      ])
 
     self.loadLocalWebPage()
   }
